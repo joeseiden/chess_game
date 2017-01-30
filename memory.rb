@@ -27,12 +27,12 @@ class MemoryGame
   end
 
   def get_player_input
-
+    begin
       pos = player.get_input
       valid_pos?(pos)
     rescue ArgumentError => e
       puts e
-    retry
+      retry
     end
 
     pos

@@ -6,8 +6,15 @@ class HumanPlayer
   end
 
   def get_input
-    prompt
-    parse(STDIN.gets.chomp)
+    begin
+      prompt
+      input = parse(STDIN.gets.chomp)
+    rescue ArgumentError => e
+      puts e
+      puts "Try again"
+      retry
+    end
+    input
   end
 
   def prompt
@@ -16,7 +23,11 @@ class HumanPlayer
   end
 
   def parse(string)
-    string.split(",").map { |x| Integer(x) }
+    arr = string.split(",").map { |x| Integer(x) }
+    if arr.length != 2
+      raise ArgumentError.new "Input is not in proper x,y format."
+    end
+    arr
   end
 
   def receive_revealed_card(pos, value)
@@ -84,12 +95,19 @@ class ComputerPlayer
   end
 
   def random_guess
-    guess = nil
-
-    until guess && !@known_cards[guess]
+    begin
       guess = [rand(board_size), rand(board_size)]
+      known_card?(guess)
+    rescue ArgumentError => e
+      puts e
+      retry
     end
 
     guess
   end
+
+  def known_card?(guess)
+    raise ArgumentError.new "Card already known" if @known_cards[guess]
+  end
+
 end
