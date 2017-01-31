@@ -44,12 +44,14 @@ class Board
     raise ArgumentError.new 'There is no piece there' if self[start_pos].nil?
     raise ArgumentError.new 'That is not a valid destination' unless valid_pos?(end_pos)
 
-    
+
   end
 
   def valid_pos?(pos)
     return false if pos.any? { |el| el < 0 || el > 7 }
   end
+
+  
 
 
 
