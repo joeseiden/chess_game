@@ -1,4 +1,5 @@
 require_relative 'piece'
+require_relative 'display'
 
 class Board
 
@@ -47,12 +48,18 @@ class Board
 
   end
 
-  def valid_pos?(pos)
+  def in_bounds?(pos)
     return false if pos.any? { |el| el < 0 || el > 7 }
+    true
   end
 
-  
+  def show_board
+    display = Display.new(self)
+    display.show
+  end
+end
 
-
-
+if __FILE__ == $PROGRAM_NAME
+  board = Board.new
+  board.show_board
 end
